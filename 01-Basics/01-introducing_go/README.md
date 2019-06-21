@@ -17,7 +17,7 @@
   
 * Install from https://golang.org/doc/install
 
-* For IntelliJ set up GOPATH is in usr/local/go. (cmd + shift + .) to show hidden usr folder.
+* For IntelliJ set up `GOPATH` is in usr/local/go. (cmd + shift + .) to show hidden usr folder.
   
 * Compile with `go build`, and run ./hello_world
   
