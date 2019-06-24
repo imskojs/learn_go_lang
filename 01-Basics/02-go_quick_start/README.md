@@ -124,8 +124,13 @@ class defaultMatcher {
 }
 ```
 
-* TODO: pointer receiver
+* Methods declared with pointer receivers can only be called by interface type values that contain pointers.
 
+* Methods declared with value receivers can be called by interface type values that contain both values and pointers.
+
+* If function argument specifies the interface type, values as well as pointers that implement the interface will be accepted.
+
+* SHOULD GO THOUGH TOUR OF GO FIRST
 
 
 
