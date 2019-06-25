@@ -197,33 +197,33 @@
 
 * Map maps keys to values.
     * As with any type, variable declaration without initialization get initialized with zero value of type. Map's zero value is `nil`. `nil` map cannot be used at all as no keys and values can be added to `nil` map. Hence map is often used with `make`
-        ```go
-	type Vertex struct {
-	  Lat, Long float64
-	}
-	m := make(map[string]Vertex)
-	m["SomeKey"] = Vertex{2.2, 3.3}
-	```
+         ```go
+	 type Vertex struct {
+	   Lat, Long float64
+	 }
+	 m := make(map[string]Vertex)
+	 m["SomeKey"] = Vertex{2.2, 3.3}
+	 ```
 	
     * Map literals
-        ```go
-	m := map[string]Vertex{
-	  "One": Vertex{2.3, 4.5},
-	  "Two": Vertex{1.1, 2.2},
-	}
-	// If value of a map is a type name, in this case `Vertex`, type can be omitted inside the map literal
-	m := map[string]Vertex{
-	  "One": {2.3, 4.5},
-	  "Two": {1.1, 2.2},
-	}
-	```
+         ```go
+	 m := map[string]Vertex{
+	   "One": Vertex{2.3, 4.5},
+	   "Two": Vertex{1.1, 2.2},
+	 }
+	 // If value of a map is a type name, in this case `Vertex`, type can be omitted inside the map literal
+	 m := map[string]Vertex{
+	   "One": {2.3, 4.5},
+	   "Two": {1.1, 2.2},
+	 }
+	 ```
     * Normally map is used by mutating.
-        ```go
-	m["One"] = Vertex{1, 2}
-	val := m["One"]
-	delete(m, "One")
-	val, exists = m["One"] // exist is a boolean
-	```
+         ```go
+	 m["One"] = Vertex{1, 2}
+	 val := m["One"]
+	 delete(m, "One")
+	 val, exists = m["One"] // exist is a boolean
+	 ```
 
 * Function values
     * Higher order functions.
