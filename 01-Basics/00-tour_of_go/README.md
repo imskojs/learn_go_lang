@@ -182,7 +182,78 @@
             }
             ```
          
-        * Slice from make (TODO)
+        * Slice from make. It's like Array(n).
+	    ```go
+	    a := make([]int, 5) // Slice of length and cap 5 with underlying array that has 5 zeros.
+	    b := make([]int, 0, 5) // Slice of length 0 and capacity 5
+	    ```
     
-    
+    * `append` is like push.
+    	* If baking array is too small, the returned slice of `append` will point to the newly allocated array.
+	    ```go
+	    var s []int
+	    s = append(s, 1, 2, 3) // s == [1, 2, 3]
+	    ```
 
+* Map maps keys to values.
+    * As with any type, variable declaration without initialization get initialized with zero value of type. Map's zero value is `nil`. `nil` map cannot be used at all as no keys and values can be added to `nil` map. Hence map is often used with `make`
+        ```go
+	type Vertex struct {
+	  Lat, Long float64
+	}
+	m := make(map[string]Vertex)
+	m["SomeKey"] = Vertex{2.2, 3.3}
+	```
+	
+    * Map literals
+        ```go
+	m := map[string]Vertex{
+	  "One": Vertex{2.3, 4.5},
+	  "Two": Vertex{1.1, 2.2},
+	}
+	// If value of a map is a type name, in this case `Vertex`, type can be omitted inside the map literal
+	m := map[string]Vertex{
+	  "One": {2.3, 4.5},
+	  "Two": {1.1, 2.2},
+	}
+	```
+    * Normally map is used by mutating.
+        ```go
+	m["One"] = Vertex{1, 2}
+	val := m["One"]
+	delete(m, "One")
+	val, exists = m["One"] // exist is a boolean
+	```
+
+* Function values
+    * Higher order functions.
+        ```go
+	func outer(someFunc func(float64, float64) float64) float64 {
+	  return someFunc(3, 4)
+	}
+	```
+    * Closures. Interestingly if a inner function can access and assign to the outer varaible, gophers say that an inner function is "bound" to the variables.
+        ```go
+	func outer() func(int) int {
+	  sum := 0
+	  return func(x int) int {  // this inner function is bound to sum variable.
+	    sum += x
+	    return sum
+	  }
+	}	
+	```
+
+* `range` form of the `for` loop iterages over a *slice* or *map*
+    * `range` for slice returns index, and a copy of the element at that index
+        ```go
+	list := []int{1, 2, 3}
+	for i, v := range list {
+	  fmt.Println("v is a copy of list[i]")
+	}
+	```
+    * Skip index or value by assigning to _.
+        ```go
+	for i, _ := range list
+	for _, v := range list
+	for i := range list // if only first value (index) is needed second variable can be omitted.
+	```
