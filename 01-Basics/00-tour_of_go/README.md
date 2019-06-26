@@ -300,4 +300,42 @@
 	    v.Scale(10) // results in original v mutating.
 	    v.Scale2(10) // original v is not affected at all.
 	    ```
+	
+* Different behaviors of pointer indirection(dereferencing) between a receiver and function argument.
+	
+	* Function parameter of pointer type *must* be given a pointer (an address value)
+		```go
+		vertex := Vertex{3, 4}
+		func SomeFunc(v *Vertex, f float64) {
+		  v.X = v.X * f
+		}
+		val := SomeFunc(vertex) // Compile Error.
+		val := SomeFunc(&vertex)
+		
+		```
+	
+	* But method with pointer receiver can take both a value and a pointer.
+		```go
+		vertex := Vertex{1,2}
+		func (v *Vertex) Scale(f float64) {
+		  v.X = v.X * f
+		}
+		vertex.Scale(5) // OK. For convenience compiler converts it to (&vertex).Scale(5)
+		pVertex := &vertex
+		pVertex.Scale(5) // OK
+		```
+	
+	* Reverse is true, methods with value receivers can take both a value and a pointer. Note since it is passed by value a value is copied hence still no mutation is done on the dereferenced address.
+		```go
+		func (v Vertex) Scale(f float64) {
+		  v.X = v.X * f
+		}
+		pVertex := &Vertex{1, 2}
+		pVertex.Scale(5) // Ok. For convenience compiler converts it to (*pVertex).Scale(5)
+		vertex := *pVertex
+		vertex.Scale(5) // OK.
+		```
+	
+	* In general, all methods have either all pointer receiver or all value receiver. And not a mixture.
+		
 
