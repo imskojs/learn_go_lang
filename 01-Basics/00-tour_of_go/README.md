@@ -285,5 +285,19 @@
             }
             ```
     
-    *  TODO: pointer receivers
+    * Receiver can be a pointer type
+    
+    	* Methods with pointer receivers can modify the value to which the receiver points. This also means if a method as a value receivers, it cannot modify and will be copied by value just like function args are copied by value.
+	    ```go
+	    // Here v is passed by a reference. (passed by address value)
+	    func (v *Vertex) Scale(f float64) {
+	      v.X = v.X * f
+	    }
+	    // Here v is passed by a value. (similar to cloned Object which is not connected to original Object at all)
+	    func (v Vertex) Scale2(f float64) {
+	      v.X = v.X * f
+	    }
+	    v.Scale(10) // results in original v mutating.
+	    v.Scale2(10) // original v is not affected at all.
+	    ```
 
