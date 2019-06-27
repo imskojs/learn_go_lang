@@ -369,4 +369,4 @@
         a = &Vertex{1, 1} // OK. as Abs is defined in *Vertex pointer type.
         ```
     
-    * TODO: interface values
+    * Interface value has a tuple of a value and a concrete type. Internally something like `(3, int)` where `3` is value `int` is type
