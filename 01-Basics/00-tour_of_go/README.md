@@ -288,18 +288,18 @@
     * Receiver can be a pointer type
     
     	* Methods with pointer receivers can modify the value to which the receiver points. This also means if a method as a value receivers, it cannot modify and will be copied by value just like function args are copied by value.
-	    ```go
-	    // Here v is passed by a reference. (passed by address value)
-	    func (v *Vertex) Scale(f float64) {
-	      v.X = v.X * f
-	    }
-	    // Here v is passed by a value. (similar to cloned Object which is not connected to original Object at all)
-	    func (v Vertex) Scale2(f float64) {
-	      v.X = v.X * f
-	    }
-	    v.Scale(10) // results in original v mutating.
-	    v.Scale2(10) // original v is not affected at all.
-	    ```
+            ```go
+            // Here v is passed by a reference. (passed by address value)
+            func (v *Vertex) Scale(f float64) {
+              v.X = v.X * f
+            }
+            // Here v is passed by a value. (similar to cloned Object which is not connected to original Object at all)
+            func (v Vertex) Scale2(f float64) {
+              v.X = v.X * f
+            }
+            v.Scale(10) // results in original v mutating.
+            v.Scale2(10) // original v is not affected at all.
+            ```
 	
 * Different behaviors of pointer indirection(dereferencing) between a receiver and function argument.
 	
@@ -339,3 +339,34 @@
 	* In general, all methods have either all pointer receiver or all value receiver. And not a mixture.
 		
 
+* Interface type has a set of method signatures (method types). Implicit interface rather than explicit interface (no `implements` keyword)
+    * When defining methods in typed language we usually make an interface and `implement` it.
+    In Go, we don't implement interface, but if we want to assign a type to a variable of specific interface, a Type must have all methods defined in an interface.
+    In this regards, interface is a explicit contract that focuses on a behavior of a variable of specific type.
+        ```go
+        type Abser interface {
+          Abs() float64
+        }
+        type MyFloat float64
+
+        func (f MyFloat) Abs() float64 {
+          return float64(f)
+        }
+
+        var a Abser
+        a = MyFloat(12) // MyFloat has an Abs method so it is considered to implements Abser interface hence is assignable to `a` variable which has Abser interface type here.
+        ```
+    * For interface methods defined on pointer receiver, in order to assign to a variable of interface type, a value has to be a pointer value.
+        ```go
+        type Abser interface {
+          Abs() float64
+        }
+        func (v *Vertex) Abs() float64 {
+            return float64(v.X)
+        }
+        var a Abser
+        a = Vertex{1, 1} // Error. As no Abs method is defined in Vertex value type.
+        a = &Vertex{1, 1} // OK. as Abs is defined in *Vertex pointer type.
+        ```
+    
+    * TODO: interface values
