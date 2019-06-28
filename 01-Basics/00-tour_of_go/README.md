@@ -398,4 +398,117 @@
             i = "Hello"
             ```
             
-* TODO: Type assertions
+* Type Assertion, `i.(T)`, to convert or check any `interface{}`
+    * second return value is used to check whether type assertion is successful or not
+        ```go
+        var i interface{} = Vertex{1, 2}
+        t, ok := i.(Vertex) // t == Vertex{1, 2}, ok == true
+
+        i = "some string"
+        t, ok = i.(Vertex) // t == "", a zero value of string, ok == false
+        ```
+    
+    * if second variable (`ok`, above) is not provided, and the interface does not hold a asserted type `(Vertex)` of `i.(Vertex)` above,
+    it will throw error (cause panic).
+        ```go
+        var i interface{}
+        t := i.(Vertex) // causes panic as `i` does not hold asserted type, and second variable is not defined to catch `error`
+        ```
+
+* `type` keyword can be used in switch statement with same syntax as Type Assertion.
+
+    * Each switch case is compared against the `type`.
+        ```go
+        switch v := i.(type) { // note `type` is a keyword, and no second variable needed
+            case Vertex:
+                // v is of type Vertex
+            case float64:
+                // v is of type float64
+            default:
+                // v is of type i
+        }
+        ```
+
+* `Stringer` built-in interface, `type Stringer interface { String() string }` is like `toString()`
+
+    * It is used as a method that is called when any type value has to be expressed as a string value.
+        ```go
+        type Person struct {
+            Name string
+            Age int
+        }
+        func (p *Person) String() string {
+            return string(p.Age)
+        }
+        person := &Person{"Dave", 33}
+        fmt.Println(person) // `fmt.Println` uses String() method to convert `person` to a string value
+        // prints "33"
+        ```
+        
+* `error` built-in interface, `type error interface { Error() string}`
+
+    * some packages look for the `error` interface, for example `fmt` uses `Error()` method when passed in type is an `error` type
+        ```go
+        type MyError struct {
+            When time.Time
+            What string
+        }
+
+        func (e *MyError) Error() string { // Since MyError implements Error method it is now compatible with `error` interface
+            return fmt.Println(e.What)
+        }
+        var err error
+        err = &MyError{time.Now(), "it's an error"}
+
+        fmt.Println(err) // since err is error type, Println will call Error() method to get an error message.
+        ```
+
+    
+* *Channel*, `chan`, is a medium where data is sent and received between go routines.
+
+    * Channels can be explained with analogy of RxJS even though it's not related at all.
+    
+        * In RxJS values are emitted one by one. eg)
+            ```typescript
+            // from function sends each element in an array, subscriber receives each element one by one
+            from([1, 2, 3]).subscribe(x => console.log(x)) // logs 1, then 2, then 3
+            ```
+          In Go, channels send and receive manually one by one. eg)
+            ```go
+            ch := make(chan int, 3) // need to specify how many will be sent
+            // have to explicitly send each individually
+            ch <- 1 // <- means send to channel `ch`
+            ch <- 2
+            ch <- 3
+            // have to explicitly receive each item
+            var x int
+            x = <-ch
+            fmt.Println(x) // logs 1
+            x = <-ch
+            fmt.Println(x) // logs 2
+            x = <-ch
+            fmt.Println(x) // logs 3
+            ```
+          Surely, this is not applicable with a large number of sends and receives. So there is a better way using `range` keyword with `channel` type data.
+          Above can be written like below.
+            ```go
+            ch := make(chan int, 3)
+            for x := 1; x <= 3; x++ {
+  	           ch <- x
+            }
+            close(ch) // need to manually close. It's like complete event in RxJS.
+  	        // Loops through each sent integer as though it's an array. 
+            //   Similar to RxJS's `map` which has same interface for an Array and Observable, 
+            //   `range` has the same interface for a `slice`, and a `channel`.
+            for x := range ch { // ch must be `close`d for `for` loop to terminate, otherwise it will loop infinitely
+  	           fmt.Println(x)
+            }
+            ```
+          Event though above example is in Sync setting, same logic applies to Async setting with `go`routines, just like RxJS treats Sync and Async the same.
+        
+         
+* *Goroutine*, `go`, is a lightweight thread. Can spawn tens of thousands without a problem.
+
+    * `go f(x, y, z)`, function `f`, and arguments `x`, `y`, `z` is evaluated in current thread (main thread) but function body (logic) is called in new independent thread.
+    
+* TODO: Select
