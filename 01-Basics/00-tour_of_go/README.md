@@ -370,3 +370,32 @@
         ```
     
     * Interface value has a tuple of a value and a concrete type. Internally something like `(3, int)` where `3` is value `int` is type
+        
+        * If the value of a internal tuple is `nil`, method is called with `nil` receiver. So if a `nil` handling error exists in method there will be no nil pointer error.
+            ```go
+            type I interface {
+                SomeMethod() float64
+            }
+            func (v *Vertex) SomeMethod() float64 {
+              if v == nil {
+                // Handling nil pointer
+              }
+              return float64(v.X)
+            }
+            var i I
+            var v *Vertex // nil pointer Vertex
+            i = v // nil
+            i.SomeMethod() // even though i is nil SomeMethod still works, no null point error as long as there is a null receiver handler in a method.
+            ```
+            Hence, an interface value that holds a nil concrete value (a value in internal tuple) is itself non-nil
+            
+        * `nil` interface value, unlike above, holds neither concrete value nor concrete type. This leads to nil pointer error.
+        
+        * type `any` = `interface{}`
+            ```go
+            var i interface{}
+            i = 42
+            i = "Hello"
+            ```
+            
+* TODO: Type assertions
