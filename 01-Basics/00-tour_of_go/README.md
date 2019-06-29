@@ -511,4 +511,71 @@
 
     * `go f(x, y, z)`, function `f`, and arguments `x`, `y`, `z` is evaluated in current thread (main thread) but function body (logic) is called in new independent thread.
     
-* TODO: Select
+* *Select* is like a async compatible switch. 
+
+    * It can be used to block(wait) for one of the channel specified in `case` statement.
+        ```go
+        c := make(chan int)
+        quit := make(chan int)
+        go func() {
+          for i := 0; i < 10; i++ {
+              fmt.Println(<-c)
+          }
+          quit <- 0
+        }()
+        x := 0
+        y := 1
+        for {
+  	      select {
+          case c <- x:  // send to channel c. this can be run when goroutine listens to c, i.e. <-c exists in declaration.
+    	    fmt.Println(x)
+          case <-quit: // when receives from quit channel. can receive value by `val := <-quit`.
+    	    fmt.Println("quit")
+            return
+          }
+        }
+        ```
+        Note that `select` statement blocks(waits) until at least one of the `case` can be run.
+        
+    * Or it can be non-blocking(passes-through) with `default` case.
+        ```go
+        tick := time.Tick(100 * time.Millisecond) // tick is a channel that sends every 100 ms, like time(100, 100) in rxjs
+        boom := time.After(500 * time.Millisecond) // boom is a channel
+        for {
+            select {
+            case <-tick:
+                fmt.Println("tick.")
+            case <-boom:
+                fmt.Println("BOOM!")
+                return
+            default:
+                fmt.Println("...")
+                time.Sleep(50 * time.Millisecond)
+            }
+        }
+        ```
+
+    *  Note for both cases, compiler evaluates whether channel has both send and receive defined at declaration time.
+
+* *Mutex*, mutual exclusion, is another way for managing shared state. `sync.Mutex` allows only one goroutine to change state at a time.
+
+    * Block of code to run in mutual exclusion (sync) by wrapping code in `Lock` and `Unlock` method of `sync.Mutex`, Q::internally this must be a que of goroutines.
+        ```go
+        type SafeCounter struct {
+            v int
+            mux sync.Mutex
+        }
+
+        func (c *SafeCounter) Inc() {
+            c.mux.Lock()
+            c.v++
+            c.mux.Unlock()
+        }
+
+        c := SafeCounter{0}
+        for i := 0; i < 1000; i++ {
+            go c.Inc()
+        }
+        time.Sleep(time.Second) // sync code run before goroutine so need a way for it to run on next tick (naively sleep here)
+        fmt.Println(c.v)
+        ```
