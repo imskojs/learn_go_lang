@@ -33,6 +33,8 @@
     * To manually make remote stuff a local stuff `go get githumb.com/whatever` can be used. 
     Note though this is the exact command used when import statements get package from remote source
     Goland IDE will give a note if imported remote package is not currently available in the local repo
+    
+    * `go get` will download and install the remote repo (install as in generate binary file)
         
 * `go install github.com/imskojs/fmt` builds binary file in `~/go/bin/` from entry of `package main`
     * `go` command uses $GOPATH as the base path so `go intall` can be run from any folder
