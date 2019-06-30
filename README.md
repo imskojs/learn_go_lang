@@ -1,2 +1,1 @@
-# golang
-Learn golang
+# Learn Go lang as a NodeJS/Angular dev
