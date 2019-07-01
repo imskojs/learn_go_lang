@@ -130,7 +130,6 @@ class defaultMatcher {
 
 * If function argument specifies the interface type, values as well as pointers that implement the interface will be accepted.
 
-* SHOULD GO THOUGH TOUR OF GO FIRST
 
 
 
