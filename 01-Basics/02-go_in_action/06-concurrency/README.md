@@ -59,4 +59,36 @@
     
 * Unbuffered Channel
     * No capacity to hold any value before it's received.
+    * requires both a sending and receiving goroutine to be ready at the same instance.
+    * If two go routines aren't ready at the same instance, the channels makes send or receive operations wait.
+    * because of this wait behavior, synchronization is inherent in the interaction.
+
+* Buffered Channel
+    * Can hold more than one values before they're received.
+    * Receive blocks when there are no value in the channel to receive.
+    * Send blocks when there is no available buffer to place the value being sent.
+    * Each goroutine is receiving work distributed from the channel. i.e. if chan <- 1, chan <-2 is called, depending on
+    the number of goroutines it will 1, and 2 will be distributed evenly, no duplicate receives.
+    * Q::But empty receive is duplicated to all goroutines? so that it knows when to return/exit?
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
