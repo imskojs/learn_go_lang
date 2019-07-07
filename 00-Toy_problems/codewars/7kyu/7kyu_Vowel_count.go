@@ -17,3 +17,13 @@ func GetCount(str string) (count int) {
 	}
 	return
 }
+
+func GetCount1(str string) (count int) {
+	for _, char := range str {
+		switch char {
+		case 'a', 'e', 'i', 'o', 'u':
+			count++
+		}
+	}
+	return
+}
