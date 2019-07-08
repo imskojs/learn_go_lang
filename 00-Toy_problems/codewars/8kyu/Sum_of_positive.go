@@ -9,3 +9,12 @@ func PositiveSum(numbers []int) int {
 	}
 	return total
 }
+
+func PositiveSum1(numbers []int) (sum int) {
+	for _, num := range numbers {
+		if num > 0 {
+			sum += num
+		}
+	}
+	return
+}
