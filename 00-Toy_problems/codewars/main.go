@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.PositiveSum([]int{1, -1, 2, -2})
+		kyu8.DNAtoRNA("GCAT")
 	fmt.Println(answer)
 
 }
