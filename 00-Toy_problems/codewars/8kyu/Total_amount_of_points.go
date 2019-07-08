@@ -20,3 +20,15 @@ func Points(games []string) int {
 	}
 	return point
 }
+
+func Points1(games []string) int {
+	points := 0
+	for _, g := range games {
+		if g[0] > g[2] {
+			points += 3
+		} else if g[0] == g[2] {
+			points += 1
+		}
+	}
+	return points
+}
