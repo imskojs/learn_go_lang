@@ -14,3 +14,7 @@ func DNAtoRNA(dna string) string {
 	}
 	return str.String()
 }
+
+func DNAtoRNA1(dna string) string {
+	return strings.Replace(dna, "T", "U", -1)
+}
