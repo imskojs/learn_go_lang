@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.DNAtoRNA("GCAT")
+		kyu8.Points([]string{"3:1", "2:2", "1:2"})
 	fmt.Println(answer)
 
 }
