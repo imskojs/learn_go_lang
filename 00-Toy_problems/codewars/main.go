@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.Points([]string{"3:1", "2:2", "1:2"})
+		kyu8.BoolToWord(true)
 	fmt.Println(answer)
 
 }
