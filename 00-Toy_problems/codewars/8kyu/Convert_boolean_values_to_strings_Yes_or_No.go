@@ -8,3 +8,7 @@ func BoolToWord(word bool) string {
 		return "No"
 	}
 }
+
+func BoolToWord1(word bool) string {
+	return map[bool]string{false: "No", true: "Yes"}[word]
+}
