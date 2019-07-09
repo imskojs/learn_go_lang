@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.BoolToWord(true)
+		kyu8.IsPalindrome("hello")
 	fmt.Println(answer)
 
 }
