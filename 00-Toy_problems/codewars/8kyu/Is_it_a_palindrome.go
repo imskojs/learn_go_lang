@@ -21,3 +21,15 @@ func IsPalindrome(str string) bool {
 	}
 	return true
 }
+
+func IsPalindrome1(str string) bool {
+	str = strings.ToLower(str)
+	n := len(str)
+	for i := 0; i < n; i++ {
+		n -= 1
+		if str[i] != str[n] {
+			return false
+		}
+	}
+	return true
+}

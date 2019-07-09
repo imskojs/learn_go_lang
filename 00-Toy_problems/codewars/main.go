@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.IsPalindrome("hello")
+		kyu8.IsPalindrome1("hello")
 	fmt.Println(answer)
 
 }
