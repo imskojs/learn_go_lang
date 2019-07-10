@@ -14,3 +14,16 @@ func SquareOrSquareRoot(arr []int) []int {
 	}
 	return result
 }
+
+func SquareOrSquareRoot1(arr []int) []int {
+	result := make([]int, len(arr))
+	for index, n := range arr {
+		whole, remainder := math.Modf(math.Sqrt(float64(n)))
+		if remainder == 0 {
+			result[index] = int(whole)
+		} else {
+			result[index] = n * n
+		}
+	}
+	return result
+}
