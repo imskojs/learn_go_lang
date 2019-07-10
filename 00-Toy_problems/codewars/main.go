@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.SquareOrSquareRoot1([]int{1, 2, 3, 4, 5})
+		kyu8.HowManyDalmatians(10)
 	fmt.Println(answer)
 
 }
