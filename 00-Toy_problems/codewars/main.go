@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu8.HowManyDalmatians(10)
+		kyu8.AbbrevName("Hi There")
 	fmt.Println(answer)
 
 }
