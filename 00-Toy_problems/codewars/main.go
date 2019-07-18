@@ -8,7 +8,7 @@ import (
 func main() {
 	var answer interface{}
 	answer =
-		kyu6.Solution("awsaws")
+		kyu6.Parse("iiisdoso")
 	fmt.Println(answer)
 
 }
